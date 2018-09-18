@@ -10,7 +10,7 @@
     <meta name="keywords" content="">
     <meta name="robots" content="all">
 
-    <title>订单列表 - 慕课商城</title>
+    <title>订单列表 - 黑猫商城</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">

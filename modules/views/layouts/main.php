@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>慕课商城 - 后台管理</title>
+    <title>黑猫商城 - 后台管理</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -43,7 +43,7 @@
             <span class="icon-bar"></span>
         </button>
 
-        <a class="brand" href="index.html" style="font-weight:700;font-family:Microsoft Yahei">慕课商城 - 后台管理</a>
+        <a class="brand" href="index.html" style="font-weight:700;font-family:Microsoft Yahei">黑猫商城 - 后台管理</a>
 
         <ul class="nav pull-right">
             <li class="hidden-phone">
@@ -147,7 +147,7 @@
                 </a>
             </li>
             <li class="settings hidden-phone">
-                <a href="signin.html" role="button">
+                <a href="<? echo \yii\helpers\Url::to(['public/logout']); ?>" role="button">
                     <i class="icon-share-alt"></i>
                 </a>
             </li>

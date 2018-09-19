@@ -45,19 +45,22 @@ use yii\helpers\Html;
     <div class="span4 box">
         <div class="content-wrap">
             <h6>黑猫商城 - 修改密码</h6>
-            <?php echo $form->field($model,'adminuser')->textInput(['class'=>'span12','placeholder'=>'管理员账号']); ?>
-            <?php echo $form->field($model,'adminpass')->passwordInput(['class'=>'span12','placeholder'=>'管理员密码']); ?>
-            <a href="<? echo \yii\helpers\Url::to(['public/seekpassword']); ?>" class="forgot">忘记密码?</a>
-            <?php echo $form->field($model,'rememberMe')->checkbox([
-                'id'=>'remember-me',
-                'template'=>'<div class="remember">{input}<label for="remember-me">记住我</label></div>']); ?>
-            <?php echo Html::submitButton('登录',["class"=>"btn-glow primary login"]); ?>
+            <?php
+                if(Yii::$app->session->hasFlash('info')){
+                    echo Yii::$app->session->getFlash('info');
+                }
+            ?>
+            <?php echo $form->field($model,'adminuser')->hiddenInput(); ?>
+            <?php echo $form->field($model,'adminpass')->passwordInput(['class'=>'span12','placeholder'=>'输入密码']); ?>
+            <?php echo $form->field($model,'repass')->passwordInput(['class'=>'span12','placeholder'=>'确认密码']); ?>
+            <a href="<? echo \yii\helpers\Url::to(['public/login']); ?>" class="forgot">返回登录</a>
+            <?php echo Html::submitButton('修改',["class"=>"btn-glow primary login"]); ?>
         </div>
     </div>
     <?php ActiveForm::end() ?>
     <div class="span4 no-account">
         <p>没有账户?</p>
-        <a href="signup.html">注册</a>
+        <a href="<?php echo \yii\helpers\Url::to(['admin/signup']); ?>">注册</a>
     </div>
 </div>
 

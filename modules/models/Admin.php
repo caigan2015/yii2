@@ -75,9 +75,19 @@ class Admin extends ActiveRecord
     {
         $this->scenario = 'seekpass';
         if($this->load($data) && $this->validate()){
-            return true;
+            $time = time();
+            $token = $this->createToken($data['Admin']['adminuser'],$time);
+            $mailer = Yii::$app->mailer->compose('seekpass',['adminuser'=>$data['Admin']['adminuser'],'token'=>$token,'time'=>$time]);
+            $mailer->setFrom('caigan2008@163.com')->setTo($data['Admin']['adminemail'])->setSubject('黑猫商城 - 找回密码');
+            if($mailer->send()){
+                return true;
+            }
         }
         return false;
     }
 
+    public function createToken($user,$time)
+    {
+        return md5(md5($user).base64_encode(Yii::$app->request->userIp).md5($time));
+    }
 }

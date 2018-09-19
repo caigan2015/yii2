@@ -48,7 +48,7 @@ use yii\helpers\Html;
                 <?php echo $form->field($model,'adminuser')->textInput(['class'=>'span12','placeholder'=>'管理员账号']); ?>
                 <?php echo $form->field($model,'adminemail')->textInput(['class'=>'span12','placeholder'=>'管理员邮箱']); ?>
                 <a href="<? echo \yii\helpers\Url::to(['public/login']); ?>" class="forgot">返回登录</a>
-                <? echo Html::submitButton('找回密码',["class"=>"btn-glow primary login"]); ?>
+                <?php echo Html::submitButton('找回密码',["class"=>"btn-glow primary login"]); ?>
             </div>
         </div>
         <?php ActiveForm::end() ?>

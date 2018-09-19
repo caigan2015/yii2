@@ -48,10 +48,10 @@ use yii\helpers\Html;
                 <?php echo $form->field($model,'adminuser')->textInput(['class'=>'span12','placeholder'=>'管理员账号']); ?>
                 <?php echo $form->field($model,'adminpass')->passwordInput(['class'=>'span12','placeholder'=>'管理员密码']); ?>
                 <a href="<? echo \yii\helpers\Url::to(['public/seekpassword']); ?>" class="forgot">忘记密码?</a>
-                <? echo $form->field($model,'rememberMe')->checkbox([
+                <?php echo $form->field($model,'rememberMe')->checkbox([
                     'id'=>'remember-me',
                     'template'=>'<div class="remember">{input}<label for="remember-me">记住我</label></div>']); ?>
-                <? echo Html::submitButton('登录',["class"=>"btn-glow primary login"]); ?>
+                <?php echo Html::submitButton('登录',["class"=>"btn-glow primary login"]); ?>
             </div>
         </div>
         <?php ActiveForm::end() ?>

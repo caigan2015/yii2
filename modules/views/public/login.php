@@ -47,7 +47,7 @@ use yii\helpers\Html;
                 <h6>黑猫商城 - 后台管理</h6>
                 <?php echo $form->field($model,'adminuser')->textInput(['class'=>'span12','placeholder'=>'管理员账号']); ?>
                 <?php echo $form->field($model,'adminpass')->passwordInput(['class'=>'span12','placeholder'=>'管理员密码']); ?>
-                <a href="<? echo \yii\helpers\Url::to(['public/seekpassword']); ?>" class="forgot">忘记密码?</a>
+                <a href="<?php echo \yii\helpers\Url::to(['public/seekpassword']); ?>" class="forgot">忘记密码?</a>
                 <?php echo $form->field($model,'rememberMe')->checkbox([
                     'id'=>'remember-me',
                     'template'=>'<div class="remember">{input}<label for="remember-me">记住我</label></div>']); ?>
@@ -55,10 +55,10 @@ use yii\helpers\Html;
             </div>
         </div>
         <?php ActiveForm::end() ?>
-        <div class="span4 no-account">
+<!--        <div class="span4 no-account">
             <p>没有账户?</p>
             <a href="signup.html">注册</a>
-        </div>
+        </div>-->
     </div>
 
 	<!-- scripts -->

@@ -137,7 +137,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="<?php echo \yii\helpers\Url::to(['manage/changemail'])?>">个人信息管理</a></li>
-                    <li><a href="#">修改密码</a></li>
+                    <li><a href="<?php echo \yii\helpers\Url::to(['manage/changepass']) ;?>">修改密码</a></li>
                     <li><a href="#">订单管理</a></li>
                 </ul>
             </li>
@@ -193,9 +193,8 @@
                 <i class="icon-chevron-down"></i>
             </a>
             <ul class="submenu">
-                <li><a href="user-list.html">用户列表</a></li>
-                <li><a href="new-user.html">加入新用户</a></li>
-                <li><a href="user-profile.html">用户信息</a></li>
+                <li><a href="<?php echo  \yii\helpers\Url::to(['user/users']);?>">用户列表</a></li>
+                <li><a href="<?php echo \yii\helpers\Url::to(['user/reg']) ;?>">加入新用户</a></li>
             </ul>
         </li>
         <li>

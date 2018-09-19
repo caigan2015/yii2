@@ -53,8 +53,8 @@
 
             <div class="col-xs-12 col-sm-6 no-margin">
                 <ul class="right">
-                    <li><a href="authentication.html">注册</a></li>
-                    <li><a href="authentication.html">登录</a></li>
+                    <li><a href="<?php echo \yii\helpers\Url::to(['member/reg']) ;?>">注册</a></li>
+                    <li><a href="<?php echo \yii\helpers\Url::to(['member/auth']) ;?>">登录</a></li>
                 </ul>
             </div><!-- /.col -->
         </div><!-- /.container -->

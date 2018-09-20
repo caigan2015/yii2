@@ -23,8 +23,8 @@ use yii\bootstrap\ActiveForm;
                         ]
                     ]) ?>
                         <?php echo  $form -> field($model,'username')->textInput(['class'=>'le-input'])?>
-                        <?php echo  $form -> field($model,'userpass')->textInput(['class'=>'le-input'])?>
-                        <?php echo  $form -> field($model,'repass')->textInput(['class'=>'le-input'])?>
+                        <?php echo  $form -> field($model,'userpass')->passwordInput(['class'=>'le-input'])?>
+                        <?php echo  $form -> field($model,'repass')->passwordInput(['class'=>'le-input'])?>
                         <div class="buttons-holder">
                             <?php echo \yii\helpers\Html::submitButton('提交',['class'=>'le-button huge']); ?>
                         </div><!-- /.buttons-holder -->

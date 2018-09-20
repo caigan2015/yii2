@@ -53,8 +53,9 @@ class User extends ActiveRecord
 
             ['userpass','required','message'=>'密码不能为空','on'=>['regbymail','maillogin','qqreg']],
             ['userpass','validatePass','on'=>['maillogin']],
+            ['repass','required','message'=>'确认密码不能为空','on'=>['qqreg']],
             ['repass','compare','compareAttribute'=>'userpass','message'=>'两次输入密码不一致','on'=>['qqreg']],
-            
+
             ['rememberMe','boolean','on'=>['maillogin']],
         ];
     }

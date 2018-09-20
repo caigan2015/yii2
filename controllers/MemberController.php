@@ -60,7 +60,7 @@ class MemberController extends Controller
         $accessToken = $auth->qq_callback();
         $openId = $auth->get_openid();
         $qc = new \QC($accessToken,$openId);
-        $user = $qc->get_user_info();
+        $user = $qc->get_user_info();var_dump($user);
 
     }
 }

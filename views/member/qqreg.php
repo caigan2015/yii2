@@ -9,9 +9,9 @@ use yii\bootstrap\ActiveForm;
 
             <div class="col-md-6">
                 <section class="section sign-in inner-right-xs">
-                    <h2 class="bordered">
+                    <h3 class="bordered">
                         <img src="<?php echo Yii::$app->session['userinfo']['figureurl_1']; ?>" alt="">
-                        完善您的信息</h2>
+                        <?php echo Yii::$app->session['userinfo']['nickname']; ?>,请完善您的信息</h3>
                     <p>请您输入您的用户名与密码</p>
                     <?php $form = ActiveForm::begin([
                         'options' => [
@@ -22,10 +22,6 @@ use yii\bootstrap\ActiveForm;
                             'template'=>'<div class="field-row">{label}{input}</div>{error}'
                         ]
                     ]) ?>
-                    <div class="field-row">
-                        <label>昵称</label>
-                        <input type="text" disabled="disabled" value="<?php echo Yii::$app->session['userinfo']['nickname']; ?>" class="le-input">
-                    </div>
                         <?php echo  $form -> field($model,'username')->textInput(['class'=>'le-input'])?>
                         <?php echo  $form -> field($model,'userpass')->textInput(['class'=>'le-input'])?>
                         <?php echo  $form -> field($model,'repass')->textInput(['class'=>'le-input'])?>

@@ -14,7 +14,6 @@ class IndexController extends Controller
 {
     public function actionIndex()
     {
-        echo \Yii::getVersion();
         $this->layout = 'layout_1';
         return $this->render('index');
     }

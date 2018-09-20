@@ -53,7 +53,7 @@
 
             <div class="col-xs-12 col-sm-6 no-margin">
                 <ul class="right">
-                    <li><a href="<?php echo \yii\helpers\Url::to(['member/reg']) ;?>">注册</a></li>
+                    <li><a href="<?php echo \yii\helpers\Url::to(['member/auth']) ;?>">注册</a></li>
                     <li><a href="<?php echo \yii\helpers\Url::to(['member/auth']) ;?>">登录</a></li>
                 </ul>
             </div><!-- /.col -->
@@ -85,7 +85,7 @@
                 </div><!-- /.contact-row -->
                 <!-- ============================================================= SEARCH AREA ============================================================= -->
                 <div class="search-area">
-                    <form>
+                    <form style="margin: 0">
                         <div class="control-group">
                             <input class="search-field" placeholder="搜索商品"/>
 

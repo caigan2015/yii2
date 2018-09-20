@@ -2,103 +2,98 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use Yii;
+
+class User extends ActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentity($id)
+    public $rememberMe = true;
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return '{{%user}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function attributeLabels()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
+        return [
+            'username'=>'用户名',
+            'useremail'=>'电子邮箱',
+            'userpass'=>'密码'
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class'=>TimestampBehavior::className(),
+                'createdAtAttribute'=>'createtime',
+                'updatedAtAttribute'=>'updatetime',
+                'value'=>time(),
+
+            ],
+        ];
+    }
+
+    public function rules()
+    {
+        return [
+            ['useremail','required','message'=>'电子邮箱不能为空','on'=>['regbymail','maillogin']],
+            ['useremail','email','message'=>'电子邮箱格式不正确','on'=>['regbymail','maillogin']],
+            ['useremail','unique','message'=>'电子邮箱已存在','on'=>['regbymail']],
+
+            ['username','required','message'=>'用户名不能为空','on'=>['regbymail']],
+            ['username','unique','message'=>'用户名格式不正确','on'=>['regbymail']],
+            ['userpass','required','message'=>'密码不能为空','on'=>['regbymail','maillogin']],
+            ['userpass','validatePass','on'=>['maillogin']],
+            
+            ['rememberMe','boolean','on'=>['maillogin']],
+        ];
+    }
+
+    public function validatePass()
+    {
+        if(!$this->hasErrors()){
+            $user = self::find()->where('useremail = :email',[':email' => $this->useremail])->one();
+            if(is_null($user)){
+                $this->addError('useremail','电子邮箱不存在！');
+                return false;
+            }
+            if($user->userpass != md5($this->userpass)){
+                $this->addError('userpass','密码不正确！');
+                return false;
             }
         }
-
-        return null;
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
+    public function reg()
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
+        $this->userpass = md5($this->userpass);
+        return (bool) $this->save(false);
+    }
+    public function regByMail($data){
+        $this->scenario = 'regbymail';
+        $data['User']['username'] = 'black_cat_'.uniqid();
+        $data['User']['userpass'] = uniqid();
+        if($this->load($data) &&$this->validate()){
+            $mailer = Yii::$app->mailer->compose('createuser',['username'=>$data['User']['username'],'userpass'=>$data['User']['userpass']])->setFrom('caigan2008@163.com')->setTo($this->useremail)->setSubject('黑猫商城-新建用户');
+            return (bool)($mailer->send() && $this->reg());
         }
-
-        return null;
+        return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function mailLogin($data)
     {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        $this->scenario = 'maillogin';
+        if($this->load($data) && $this->validate()){
+            $time = $this->rememberMe?3600*24:0;
+            session_set_cookie_params($time);
+            $session = Yii::$app->session;   
+            $session['loginname'] = $this->useremail;
+            $session['isLogin'] = 1;
+            return (bool)$session['isLogin'];
+        }
+        return false;
     }
 }

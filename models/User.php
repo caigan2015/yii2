@@ -20,7 +20,8 @@ class User extends ActiveRecord
         return [
             'username'=>'用户名',
             'useremail'=>'电子邮箱',
-            'userpass'=>'密码'
+            'userpass'=>'密码',
+            'repass'=>'确认密码'
         ];
     }
 
@@ -82,6 +83,7 @@ class User extends ActiveRecord
                     return false;
                 }
             }
+
             $this->userpass = md5($this->userpass);
             return (bool) $this->save(false);
         }

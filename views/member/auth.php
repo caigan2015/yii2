@@ -34,7 +34,6 @@ use yii\bootstrap\ActiveForm;
                             'template'=>'<div class="field-row">{label}{input}</div>{error}'
                         ]
                     ]) ?>
-                    <form role="form" class="login-form cf-style-1">
                         <?php echo  $form_auth -> field($model,'useremail')->textInput(['class'=>'le-input'])?>
                         <?php echo  $form_auth -> field($model,'userpass')->textInput(['class'=>'le-input'])?>
 
@@ -48,7 +47,6 @@ use yii\bootstrap\ActiveForm;
                         <div class="buttons-holder">
                             <?php echo \yii\helpers\Html::submitButton('安全登录',['class'=>'le-button huge']); ?>
                         </div><!-- /.buttons-holder -->
-                    </form><!-- /.cf-style-1 -->
                     <?php ActiveForm::end(); ?>
                 </section><!-- /.sign-in -->
             </div><!-- /.col -->

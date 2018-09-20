@@ -24,7 +24,7 @@ class MemberController extends Controller
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             if($model->mailLogin($post)){
-                $this->redirect(['index/index']);
+                return $this->redirect(['index/index']);
             }
         }
         $model->userpass = '';
@@ -39,8 +39,7 @@ class MemberController extends Controller
             $post = Yii::$app->request->post();
             if($model->regByMail($post)){
                 Yii::$app->session->setFlash('info_reg','邮件发送成功！');
-                $this->redirect(['member/auth']);
-                Yii::$app->end();
+                return $this->redirect(['member/auth']);
             }
         }
         return $this->render('auth',['model'=>$model]);
@@ -60,7 +59,32 @@ class MemberController extends Controller
         $accessToken = $auth->qq_callback();
         $openId = $auth->get_openid();
         $qc = new \QC($accessToken,$openId);
-        $user = $qc->get_user_info();var_dump($user);
+        $user = $qc->get_user_info();
+        $session = Yii::$app->session;
+        $session['userinfo'] = $user;
+        if(User::find()->where('openid = :openid',[':openid'=>$openId])->one()){
+            $session['loginname'] = $user['nickname'];
+            $session['isLogin'] = 1;
+            return $this->redirect(['index/index']);
+        }else{
+            return $this->redirect(['member/qqreg']); 
+        }
+    }
 
+    public function actionQqreg()
+    {
+        $this->layout = 'layout_2';
+        $model = new User();
+        if(Yii::$app->request->isPost){
+            $post = Yii::$app->request->post();
+            $session = Yii::$app->session;
+            $post['User']['openid'] = $session['userinfo']['openid'];
+            if($model->reg($post,'qqreg')){
+                $session['loginname'] = $session['userinfo']['nickname'];
+                $session['isLogin'] = 1;
+                return $this->redirect(['index/index']);
+            }
+        }
+        return $this->render('qqreg',['model'=>$model]);
     }
 }

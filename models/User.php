@@ -9,6 +9,7 @@ use Yii;
 class User extends ActiveRecord
 {
     public $rememberMe = true;
+    public $repass;
     public static function tableName()
     {
         return '{{%user}}';
@@ -43,10 +44,15 @@ class User extends ActiveRecord
             ['useremail','email','message'=>'电子邮箱格式不正确','on'=>['regbymail','maillogin']],
             ['useremail','unique','message'=>'电子邮箱已存在','on'=>['regbymail']],
 
-            ['username','required','message'=>'用户名不能为空','on'=>['regbymail']],
-            ['username','unique','message'=>'用户名格式不正确','on'=>['regbymail']],
-            ['userpass','required','message'=>'密码不能为空','on'=>['regbymail','maillogin']],
+            ['username','required','message'=>'用户名不能为空','on'=>['regbymail','qqreg']],
+            ['username','unique','message'=>'用户名已存在','on'=>['regbymail','qqreg']],
+
+            ['openid','required','message'=>'openid不能为空','on'=>['qqreg']],
+            ['openid','unique','message'=>'openid已存在','on'=>['qqreg']],
+
+            ['userpass','required','message'=>'密码不能为空','on'=>['regbymail','maillogin','qqreg']],
             ['userpass','validatePass','on'=>['maillogin']],
+            ['repass','compare','compareAttribute'=>'userpass','message'=>'两次输入密码不一致','on'=>['qqreg']],
             
             ['rememberMe','boolean','on'=>['maillogin']],
         ];
@@ -67,18 +73,27 @@ class User extends ActiveRecord
         }
     }
 
-    public function reg()
+    public function reg($data,$scenario='')
     {
-        $this->userpass = md5($this->userpass);
-        return (bool) $this->save(false);
+        if($this->load($data)){
+            if(!empty($scenario)){
+                $this->scenario = $scenario;
+                if(!($this->validate())){
+                    return false;
+                }
+            }
+            $this->userpass = md5($this->userpass);
+            return (bool) $this->save(false);
+        }
+        return false;
     }
     public function regByMail($data){
         $this->scenario = 'regbymail';
         $data['User']['username'] = 'black_cat_'.uniqid();
         $data['User']['userpass'] = uniqid();
-        if($this->load($data) &&$this->validate()){
+        if($this->validate()){
             $mailer = Yii::$app->mailer->compose('createuser',['username'=>$data['User']['username'],'userpass'=>$data['User']['userpass']])->setFrom('caigan2008@163.com')->setTo($this->useremail)->setSubject('黑猫商城-新建用户');
-            return (bool)($mailer->send() && $this->reg());
+            return (bool)($mailer->send() && $this->reg($data));
         }
         return false;
     }

@@ -47,8 +47,7 @@ class UserController extends Controller
         
         if((new User())->del($userid)===true){
             Yii::$app->session->setFlash('info','删除成功');
-            $this->redirect(['user/users']);
-            Yii::$app->end();
+            return $this->redirect(['user/users']);
         }
     }
 

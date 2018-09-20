@@ -21,8 +21,7 @@ class ManageController extends Controller
         $model = new Admin();
         $myToken = $model->createToken($adminuser,$time);
         if(($token != $myToken) || (time()-$time>300)){
-            $this->redirect(['public/login']);
-            Yii::$app->end();
+            return $this->redirect(['public/login']);
         }
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
@@ -63,13 +62,11 @@ class ManageController extends Controller
     {
         $adminid = (int)Yii::$app->request->get('adminid');
         if(!$adminid){
-            $this->redirect(['manage/manages']);
-            Yii::$app->end();
+            return $this->redirect(['manage/manages']);
         }
         if(Admin::deleteAll('adminid = :id',[':id'=>$adminid])){
             Yii::$app->session->setFlash('info','删除成功!');
-            $this->redirect(['manage/manages']);
-            Yii::$app->end();
+            return $this->redirect(['manage/manages']);
         }
     }
 

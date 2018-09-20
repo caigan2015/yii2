@@ -55,6 +55,12 @@ class MemberController extends Controller
 
     public function actionQqcallback()
     {
-        
+        require_once ('../vendor/qqlogin/API/qqConnectAPI.php');
+        $auth = new \Oauth();
+        $accessToken = $auth->qq_callback();
+        $openId = $auth->get_openid();
+        $qc = new \QC($accessToken,$openId);
+        $user = $qc->get_user_info();
+
     }
 }

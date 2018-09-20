@@ -62,6 +62,7 @@ class MemberController extends Controller
         $user = $qc->get_user_info();
         $session = Yii::$app->session;
         $session['userinfo'] = $user;
+        $session['openid'] = $openId;
         if(User::find()->where('openid = :openid',[':openid'=>$openId])->one()){
             $session['loginname'] = $user['nickname'];
             $session['isLogin'] = 1;
@@ -78,7 +79,7 @@ class MemberController extends Controller
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             $session = Yii::$app->session;
-            $post['User']['openid'] = $session['userinfo']['openid'];
+            $post['User']['openid'] = $session['openid'];
             if($model->reg($post,'qqreg')){
                 $session['loginname'] = $session['userinfo']['nickname'];
                 $session['isLogin'] = 1;

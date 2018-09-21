@@ -88,4 +88,13 @@ class MemberController extends Controller
         }
         return $this->render('qqreg',['model'=>$model]);
     }
+    
+    public function actionLogout()
+    {
+        Yii::$app->session->removeAll();
+        if(!isset(YII::$app->session['isLogin']))
+        {
+            return $this->redirect(['index/index']);
+        }
+    }
 }

@@ -75,16 +75,10 @@ class User extends ActiveRecord
         }
     }
 
-    public function reg($data,$scenario='')
+    public function reg($data,$scenario)
     {
-        if($this->load($data)){
-            if(!empty($scenario)){
-                $this->scenario = $scenario;
-                if(!($this->validate())){
-                    return false;
-                }
-            }
-
+        $this->scenario = $scenario;
+        if($this->load($data) && $this->validate()){
             $this->userpass = md5($this->userpass);
             return (bool) $this->save(false);
         }
@@ -94,9 +88,9 @@ class User extends ActiveRecord
         $this->scenario = 'regbymail';
         $data['User']['username'] = 'black_cat_'.uniqid();
         $data['User']['userpass'] = uniqid();
-        if($this->validate()){
+        if($this->load($data) && $this->validate()){
             $mailer = Yii::$app->mailer->compose('createuser',['username'=>$data['User']['username'],'userpass'=>$data['User']['userpass']])->setFrom('caigan2008@163.com')->setTo($this->useremail)->setSubject('黑猫商城-新建用户');
-            return (bool)($mailer->send() && $this->reg($data));
+            return (bool)($mailer->send() && $this->reg($data,'regbymail'));
         }
         return false;
     }

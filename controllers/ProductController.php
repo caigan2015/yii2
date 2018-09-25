@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 
+use app\modules\models\Product;
 use yii\web\Controller;
 
 class ProductController extends Controller
@@ -17,7 +18,6 @@ class ProductController extends Controller
     public function actionIndex()
     {
         $this->layout = 'layout_2';
-
         return $this->render('index');
     }
 

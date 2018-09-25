@@ -32,7 +32,6 @@ use yii\helpers\Html;
                         ]); ?>
                         <?php echo $form->field($model,'parentid')->dropDownList($list); ?>
                         <?php echo $form->field($model,'title')->textInput(['class'=>'span9']); ?>
-
                         <div class="span11 field-box actions">
                             <?php echo Html::submitButton("创建",['class'=>'btn-glow primary']) ?>
                             <span>或者</span>

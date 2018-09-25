@@ -48,4 +48,13 @@ return array (
       '@yii/faker' => $vendorDir . '/yiisoft/yii2-faker',
     ),
   ),
+  'crazyfd/yii2-qiniu' => 
+  array (
+    'name' => 'crazyfd/yii2-qiniu',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@crazyfd/qiniu' => $vendorDir . '/crazyfd/yii2-qiniu',
+    ),
+  ),
 );
